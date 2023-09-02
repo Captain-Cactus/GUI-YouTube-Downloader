@@ -63,11 +63,14 @@ def download_video():
                 selected_stream = stream
                 break
 
+        # Download the selected stream
         if selected_stream:
-            selected_stream.download(dir())  # Download the selected stream
+            selected_stream.download(dir()) 
 
         # Show a message box for successful download
         messagebox.showinfo("Download Complete", f"Video downloaded to:\n{dir()}")
+    
+    # Show a message box for unsuccessful download
     except Exception as e:
         messagebox.showerror("Error", "An error occurred. Please check the link")
 
@@ -101,11 +104,11 @@ textbox.place(x=1,y=40,width=298,height=20)
 textbox.bind("<Return>", link)
 
 #Right click menu
-right_click = Menu(root, tearoff=0)
-right_click.add_command(label="Paste", command=paste)
-right_click.add_command(label="Copy", command=lambda:textbox.event_generate("<<Copy>>"))
-right_click.add_command(label="Select All", command=lambda:textbox.event_generate("<<SelectAll>>"))
-right_click.add_command(label="Cut", command=lambda:textbox.event_generate("<<Cut>>"))
+popup_menu = Menu(root, tearoff=0)
+popup_menu.add_command(label="Paste", command=paste)
+popup_menu.add_command(label="Copy", command=lambda:textbox.event_generate("<<Copy>>"))
+popup_menu.add_command(label="Select All", command=lambda:textbox.event_generate("<<SelectAll>>"))
+popup_menu.add_command(label="Cut", command=lambda:textbox.event_generate("<<Cut>>"))
 
 #Key Bindings
 textbox.bind('<Control-a>', select_all)
@@ -116,19 +119,24 @@ textbox.bind('<Control-v>', paste)
 textbox.bind('<Control-V>', paste)
 
 #To display the right click menu
-textbox.bind("<Button-3>", lambda e: right_click.post(e.x_root, e.y_root))
+textbox.bind("<Button-3>", lambda e: popup_menu.post(e.x_root, e.y_root))
 
-#!Currently in this
-#Video quality button
-def test():
-    return
+#Left click to close the menu
+def popupFocusOut(self,event=None):
+        popup_menu.unpost()
 
+#To close the menu when the focus is out of the menu
+root.bind("<Button-1>",popupFocusOut)
+
+#To display the message
 video_quality = Label(root, text="Select the video quality")
 video_quality.place(relx=0.46, rely=0.41, anchor=CENTER)
 
-combo = ttk.Combobox(root, values=[])
+#Creating combo box
+combo = ttk.Combobox(root, state="readonly", values=[])
 combo.pack(pady=140)
 
+#To display the message
 note = Label(root, text="Use SAVE TO button to change the path")
 note.place(relx=0.49, rely=0.67, anchor=CENTER)
 
