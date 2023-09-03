@@ -65,10 +65,10 @@ def download_video():
 
         # Download the selected stream
         if selected_stream:
-            selected_stream.download(dir()) 
+           path = selected_stream.download(dir()) 
 
         # Show a message box for successful download
-        messagebox.showinfo("Download Complete", f"Video downloaded to:\n{dir()}")
+        messagebox.showinfo("Download Complete", f"Video downloaded to:\n{path}")
     
     # Show a message box for unsuccessful download
     except Exception as e:
