@@ -8,6 +8,7 @@ from tkinter import *
 from tkinter import filedialog
 import tkinter as tk
 from tkinter import ttk
+import threading
 
 #Window Properties
 root = Tk()
@@ -49,31 +50,27 @@ def link(event=None):
 
 # Function to download the selected video
 def download_video():
-    try:
-        url = textbox.get()
-        yt = YouTube(url)
+    url = textbox.get()
+    selected_resolution = combo.get()
 
-        # Get the selected resolution from the combobox
-        selected_resolution = combo.get()
+    def download_thread():
+        try:
+            yt = YouTube(url)
+            selected_stream = None
+            for stream in yt.streams:
+                if stream.resolution == selected_resolution:
+                    selected_stream = stream
+                    break
+            if selected_stream:
+                path = selected_stream.download(dir())
+                messagebox.showinfo("Download Complete", f"Video downloaded to:\n{path}")
+        except Exception as e:
+            messagebox.showerror("Error", "An error occurred. Please check the link")
 
-        # Find the stream with the selected resolution
-        selected_stream = None
-        for stream in yt.streams:
-            if stream.resolution == selected_resolution:
-                selected_stream = stream
-                break
-
-        # Download the selected stream
-        if selected_stream:
-           path = selected_stream.download(dir()) 
-
-        # Show a message box for successful download
-        messagebox.showinfo("Download Complete", f"Video downloaded to:\n{path}")
+ # Start a new thread for downloading
+    download_thread = threading.Thread(target=download_thread)
+    download_thread.start()
     
-    # Show a message box for unsuccessful download
-    except Exception as e:
-        messagebox.showerror("Error", "An error occurred. Please check the link")
-
 #Function to select all the string in the text box
 def select_all(event):
     event.widget.select_range(0, 'end')
