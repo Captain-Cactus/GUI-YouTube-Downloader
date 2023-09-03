@@ -15,9 +15,9 @@ from tkinter import PhotoImage
 root = Tk()
 root.title("YouTube Video Downloader")
 root.geometry("300x300")
+root.resizable(False,False)
 logo = PhotoImage(file="logo.png")
 root.iconphoto(False, logo)
-root.resizable(False,False)
 
 #To list the folder
 def dir():
