@@ -9,11 +9,14 @@ from tkinter import filedialog
 import tkinter as tk
 from tkinter import ttk
 import threading
+from tkinter import PhotoImage
 
 #Window Properties
 root = Tk()
 root.title("YouTube Video Downloader")
 root.geometry("300x300")
+logo = PhotoImage(file="logo.png")
+root.iconphoto(False, logo)
 root.resizable(False,False)
 
 #To list the folder
