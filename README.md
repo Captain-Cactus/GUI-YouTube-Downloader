@@ -1,4 +1,4 @@
-# GUI-YouTube-Downloader
+# GUI-YouTube-Video-Downloader
 GUI python application to download YouTube videos
 
 # To install and run it directly
